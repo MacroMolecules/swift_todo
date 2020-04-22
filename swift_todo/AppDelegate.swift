@@ -8,6 +8,9 @@
 
 import UIKit
 
+// 定义变量 做日期可读性
+var formatter = DateFormatter()
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // 做日期可读性
+        formatter.dateStyle = .short
         return true
     }
 
