@@ -10,8 +10,8 @@
 
 import SwiftUI
 
-// NSObject, NSCoding继承
-class Todo: NSObject, NSCoding {
+// NSObject, NSCoding继承, 继承Identifiable特性
+class Todo: NSObject, NSCoding, Identifiable {
     // 打包成可存储格式
     func encode(with coder: NSCoder) {
         // forKey存储的关键词

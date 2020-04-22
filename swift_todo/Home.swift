@@ -40,13 +40,60 @@ class Main: ObservableObject {
 }
 
 struct Home: View {
+    @ObservedObject var main: Main
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            TodoList(main: main)
+                // 点击加号毛玻璃特效
+                .blur(radius: main.detailsShowing ? 10 : 0)
+                .animation(.spring())
+            Button(action: {
+                editingMode = false
+                editingTodo = emptyToDo
+                detailsShouldUpdateTitle = true
+                self.main.detailsTitle = ""
+                self.main.detailsDueDate = Date()
+                self.main.detailsShowing = true
+            }) {
+                btnAdd()
+            }
+            .blur(radius: main.detailsShowing ? 10 : 0)
+            // 偏移位置
+            .offset(x: UIScreen.main.bounds.width/2 - 60, y: UIScreen.main.bounds.height/2 - 80)
+            .animation(.spring())
+            TodoDetails(main: main)
+                .offset(x: 0, y: main.detailsShowing ? 0 : UIScreen.main.bounds.height)
+        }
+        
+    }
+}
+
+// 浮动按钮
+struct btnAdd: View {
+    // 大小
+    var size: CGFloat = 65.0
+    var body: some View {
+        // z轴排列
+        ZStack {
+            // 底层背景
+            Group {
+                Circle()
+                    .fill(Color("btnAdd-bg"))
+            }.frame(width: self.size, height: self.size)
+                .shadow(color: Color("btnAdd-shadow"), radius: 10)
+            // 加号图标
+            Group {
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .frame(width: size, height: size)
+                    .foregroundColor(Color("theme"))
+            }
+        }
     }
 }
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        Home(main: Main())
     }
 }
